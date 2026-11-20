@@ -28,3 +28,6 @@ Hardware: hybrid inverter (14.3 kWh battery), Broadlink RM mini 3, Echo Dot, Zig
 ## Notes
 - Third‑party custom components used: HACS, Alexa Media Player, SmartIR, Bluetti BT (see `addons/`).
 - Provided as‑is; verify every automation before running it against your own hardware.
+
+## Author
+Designed, built and programmed by [@KleverBatista-max](https://github.com/KleverBatista-max): the ESP32 firmware, the Modbus sniffer, the automations, the hardware choices and the 3D parts. Built with the help of AI assistants (ChatGPT, Claude) as tools.

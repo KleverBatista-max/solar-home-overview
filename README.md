@@ -25,7 +25,8 @@ A house that stopped paying for electricity: solar panels, a hybrid inverter and
 1. **Raspberry Pi + USB‑RS485 + Broadlink:** a Python script reads the inverter and sends IR codes to the A/C.
 2. **ESP32 + ESPHome:** the inverter supplier shared the Modbus register table (Chinese), which allowed a passive sniffer.
 3. **Home Assistant:** the logic moved into automations with manual override, dawn mode and sunset hand‑off.
-4. **Off‑site backups:** encrypted daily backups to the cloud, because "just in case it all blows up".
+4. **Forecast:** Forecast.Solar (location, weather and panel orientation) tells the controller how much sun is still coming today, so it only pre-cools when the sun will pay for it.
+5. **Off‑site backups:** encrypted daily backups to the cloud, because "just in case it all blows up".
 
 More of the story (and the chat history behind it) will be added as it is recovered.
 

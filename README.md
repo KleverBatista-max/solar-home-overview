@@ -31,4 +31,4 @@ Hardware: hybrid inverter (14.3 kWh battery), Broadlink RM mini 3, Echo Dot, Zig
 - Provided as‑is; verify every automation before running it against your own hardware.
 
 ## Author
-Designed, built and programmed by [@KleverBatista-max](https://github.com/KleverBatista-max): the ESP32 firmware, the Modbus sniffer, the automations, the hardware choices and the 3D parts. Built with the help of AI assistants (ChatGPT, Claude) as tools.
+Designed, built and programmed by **John Batista** ([@KleverBatista-max](https://github.com/KleverBatista-max)): the ESP32 firmware, the Modbus sniffer, the automations, the hardware choices and the 3D parts (browse them in 3D right on GitHub: open any `.stl` in `3d/`). Built with the help of AI assistants (ChatGPT, Claude) as tools.

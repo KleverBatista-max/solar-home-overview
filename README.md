@@ -17,7 +17,6 @@ A real, working home setup built to stop paying for electricity: solar panels + 
 | `zigbee2mqtt/` | Zigbee2MQTT config (network key redacted) |
 | `raspberry-original/` | First version: Python on a Raspberry Pi reading the inverter over Modbus RTU (9600 8N1) and sending IR codes — before moving the logic to Home Assistant |
 | `docs/` | Inverter manual and the **Modbus register table (EN + original Chinese)** — hard to find outside China |
-| `3d/` | Printable STL parts (cable holder, outlet and charger covers) |
 
 ## History
 1. **Raspberry Pi + USB‑RS485 + Broadlink** — Python script, cron, rules based on surplus.
@@ -31,4 +30,4 @@ Hardware: hybrid inverter (14.3 kWh battery), Broadlink RM mini 3, Echo Dot, Zig
 - Provided as‑is; verify every automation before running it against your own hardware.
 
 ## Author
-Designed, built and programmed by **John Batista** ([@KleverBatista-max](https://github.com/KleverBatista-max)): the ESP32 firmware, the Modbus sniffer, the automations, the hardware choices and the 3D parts (browse them in 3D right on GitHub: open any `.stl` in `3d/`). Built with the help of AI assistants (ChatGPT, Claude) as tools.
+Designed, built and programmed by **John Batista** ([@KleverBatista-max](https://github.com/KleverBatista-max)): the ESP32 firmware, the Modbus sniffer, the automations, and the hardware choices. Built with the help of AI assistants (ChatGPT, Claude) as tools.

@@ -16,6 +16,7 @@ A real, working home setup built to stop paying for electricity: solar panels + 
 | `homeassistant/storage/` | Helpers (`input_*`) and the **Broadlink RM mini 3 IR codes** for the A/C |
 | `zigbee2mqtt/` | Zigbee2MQTT config (network key redacted) |
 | `raspberry-original/` | First version: Python on a Raspberry Pi reading the inverter over Modbus RTU (9600 8N1) and sending IR codes — before moving the logic to Home Assistant |
+| `docs/` | Inverter manual and the **Modbus register table (EN + original Chinese)** — hard to find outside China |
 | `3d/` | Printable STL parts (cable holder, outlet and charger covers) |
 
 ## History

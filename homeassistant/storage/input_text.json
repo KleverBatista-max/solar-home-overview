@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "input_text",
+  "data": {
+    "items": [
+      {
+        "id": "ac_last_set",
+        "name": "AC Last Set",
+        "icon": "mdi:abacus",
+        "min": 0,
+        "max": 100,
+        "mode": "text"
+      },
+      {
+        "id": "ac_solar_last_action",
+        "name": "AC Solar Last Action",
+        "icon": "mdi:abugida-thai",
+        "max": 100,
+        "min": 0,
+        "mode": "text"
+      }
+    ]
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "input_boolean",
+  "data": {
+    "items": [
+      {
+        "id": "auto_a_c",
+        "name": "Auto A/C",
+        "icon": "mdi:hvac"
+      },
+      {
+        "id": "air_conditioner",
+        "name": "Air Conditioner",
+        "icon": "mdi:air-conditioner"
+      },
+      {
+        "id": "aire_pro_bloqueo",
+        "name": "Aire Pro Bloqueo",
+        "icon": "mdi:lock-open-check"
+      },
+      {
+        "id": "a_c_manual_override",
+        "name": "A/C Manual Override",
+        "icon": "mdi:ab-testing"
+      },
+      {
+        "id": "auto_bluetti_charge",
+        "name": "Auto Bluetti Charge",
+        "icon": "mdi:battery-charging"
+      },
+      {
+        "id": "ac_comfort_override",
+        "name": "AC Comfort Override",
+        "icon": "mdi:currency-usd"
+      },
+      {
+        "id": "solar_dia_terminado",
+        "name": "Solar Dia Terminado",
+        "icon": "mdi:sun-angle-outline"
+      },
+      {
+        "id": "internet_reboot_lock",
+        "name": " internet_reboot_lock",
+        "icon": "mdi:ip"
+      }
+    ]
+  }
+}

@@ -1,0 +1,1420 @@
+- id: '1772410847387'
+  alias: 'A\C Smart Temp Energy '
+  description: 'Escalona temperatura del aire con temperaturas del cuarto '
+  triggers:
+  - entity_id: input_boolean.air_conditioner
+    to: 'on'
+    id: 'on'
+    trigger: state
+  - entity_id: input_boolean.air_conditioner
+    to: 'off'
+    id: 'off'
+    trigger: state
+  - entity_id: input_select.aire_pro_objetivo
+    id: force
+    trigger: state
+  - entity_id: sensor.airconditionermultisensor_temperatura_aire
+    below: 26
+    id: t25
+    trigger: numeric_state
+  - entity_id: sensor.airconditionermultisensor_temperatura_aire
+    below: 25.999
+    id: t24
+    trigger: numeric_state
+  - entity_id: sensor.airconditionermultisensor_temperatura_aire
+    below: 24.999
+    id: t23
+    trigger: numeric_state
+  - entity_id: sensor.airconditionermultisensor_temperatura_aire
+    below: 23.999
+    id: t22
+    trigger: numeric_state
+  - entity_id: sensor.airconditionermultisensor_temperatura_aire
+    below: 22.999
+    id: t21
+    trigger: numeric_state
+  - entity_id: sensor.airconditionermultisensor_temperatura_aire
+    below: 21.999
+    id: t20
+    trigger: numeric_state
+  actions:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: 'on'
+      - condition: state
+        entity_id: input_boolean.aire_pro_bloqueo
+        state: 'off'
+      sequence:
+      - action: remote.send_command
+        target:
+          entity_id: remote.rm_mini_3
+        data:
+          device: TCL air
+          command: '26'
+      - action: input_select.select_option
+        target:
+          entity_id: input_select.aire_pro_etapa
+        data:
+          option: '26'
+      - delay: 00:00:02
+      - variables:
+          t: '{{ states(''sensor.airconditionermultisensor_temperatura_aire'')|float(999)
+            }}'
+      - choose:
+        - conditions:
+          - condition: template
+            value_template: '{{ t < 21.999 }}'
+          sequence:
+          - action: media_player.play_media
+            target:
+              entity_id: media_player.john_s_room_echo_dot
+            data:
+              media:
+                media_content_id: Aire pro f
+                media_content_type: routine
+          - action: input_select.select_option
+            target:
+              entity_id: input_select.aire_pro_etapa
+            data:
+              option: '20'
+        - conditions:
+          - condition: template
+            value_template: '{{ t < 22.999 }}'
+          sequence:
+          - action: media_player.play_media
+            target:
+              entity_id: media_player.john_s_room_echo_dot
+            data:
+              media:
+                media_content_id: Aire pro e
+                media_content_type: routine
+          - action: input_select.select_option
+            target:
+              entity_id: input_select.aire_pro_etapa
+            data:
+              option: '21'
+        - conditions:
+          - condition: template
+            value_template: '{{ t < 23.999 }}'
+          sequence:
+          - action: media_player.play_media
+            target:
+              entity_id: media_player.john_s_room_echo_dot
+            data:
+              media:
+                media_content_id: Aire pro d
+                media_content_type: routine
+          - action: input_select.select_option
+            target:
+              entity_id: input_select.aire_pro_etapa
+            data:
+              option: '22'
+        - conditions:
+          - condition: template
+            value_template: '{{ t < 24.999 }}'
+          sequence:
+          - action: media_player.play_media
+            target:
+              entity_id: media_player.john_s_room_echo_dot
+            data:
+              media:
+                media_content_id: Aire pro c
+                media_content_type: routine
+          - action: input_select.select_option
+            target:
+              entity_id: input_select.aire_pro_etapa
+            data:
+              option: '23'
+        - conditions:
+          - condition: template
+            value_template: '{{ t < 25.999 }}'
+          sequence:
+          - action: media_player.play_media
+            target:
+              entity_id: media_player.john_s_room_echo_dot
+            data:
+              media:
+                media_content_id: Aire pro b
+                media_content_type: routine
+          - action: input_select.select_option
+            target:
+              entity_id: input_select.aire_pro_etapa
+            data:
+              option: '24'
+        - conditions:
+          - condition: template
+            value_template: '{{ t < 26.0 }}'
+          sequence:
+          - action: media_player.play_media
+            target:
+              entity_id: media_player.john_s_room_echo_dot
+            data:
+              media:
+                media_content_id: Aire pro a
+                media_content_type: routine
+          - action: input_select.select_option
+            target:
+              entity_id: input_select.aire_pro_etapa
+            data:
+              option: '25'
+    - conditions:
+      - condition: trigger
+        id: 'off'
+      sequence:
+      - action: remote.send_command
+        target:
+          entity_id: remote.rm_mini_3
+        data:
+          device: TCL air
+          command: 'off'
+      - action: input_select.select_option
+        target:
+          entity_id: input_select.aire_pro_etapa
+        data:
+          option: 'off'
+    - conditions:
+      - condition: trigger
+        id: force
+      - condition: state
+        entity_id: input_boolean.aire_pro_bloqueo
+        state: 'off'
+      - condition: state
+        entity_id: input_boolean.air_conditioner
+        state: 'on'
+      - condition: template
+        value_template: '{{ trigger.to_state.state in [''25'',''24'',''23'',''22'',''21'',''20'']
+          }}'
+      sequence:
+      - choose:
+        - conditions:
+          - condition: template
+            value_template: '{{ trigger.to_state.state == ''25'' }}'
+          sequence:
+          - action: media_player.play_media
+            target:
+              entity_id: media_player.john_s_room_echo_dot
+            data:
+              media:
+                media_content_id: Aire pro a
+                media_content_type: routine
+          - action: input_select.select_option
+            target:
+              entity_id: input_select.aire_pro_etapa
+            data:
+              option: '25'
+        - conditions:
+          - condition: template
+            value_template: '{{ trigger.to_state.state == ''24'' }}'
+          sequence:
+          - action: media_player.play_media
+            target:
+              entity_id: media_player.john_s_room_echo_dot
+            data:
+              media:
+                media_content_id: Aire pro b
+                media_content_type: routine
+          - action: input_select.select_option
+            target:
+              entity_id: input_select.aire_pro_etapa
+            data:
+              option: '24'
+        - conditions:
+          - condition: template
+            value_template: '{{ trigger.to_state.state == ''23'' }}'
+          sequence:
+          - action: media_player.play_media
+            target:
+              entity_id: media_player.john_s_room_echo_dot
+            data:
+              media:
+                media_content_id: Aire pro c
+                media_content_type: routine
+          - action: input_select.select_option
+            target:
+              entity_id: input_select.aire_pro_etapa
+            data:
+              option: '23'
+        - conditions:
+          - condition: template
+            value_template: '{{ trigger.to_state.state == ''22'' }}'
+          sequence:
+          - action: media_player.play_media
+            target:
+              entity_id: media_player.john_s_room_echo_dot
+            data:
+              media:
+                media_content_id: Aire pro d
+                media_content_type: routine
+          - action: input_select.select_option
+            target:
+              entity_id: input_select.aire_pro_etapa
+            data:
+              option: '22'
+        - conditions:
+          - condition: template
+            value_template: '{{ trigger.to_state.state == ''21'' }}'
+          sequence:
+          - action: media_player.play_media
+            target:
+              entity_id: media_player.john_s_room_echo_dot
+            data:
+              media:
+                media_content_id: Aire pro e
+                media_content_type: routine
+          - action: input_select.select_option
+            target:
+              entity_id: input_select.aire_pro_etapa
+            data:
+              option: '21'
+        - conditions:
+          - condition: template
+            value_template: '{{ trigger.to_state.state == ''20'' }}'
+          sequence:
+          - action: media_player.play_media
+            target:
+              entity_id: media_player.john_s_room_echo_dot
+            data:
+              media:
+                media_content_id: Aire pro f
+                media_content_type: routine
+          - action: input_select.select_option
+            target:
+              entity_id: input_select.aire_pro_etapa
+            data:
+              option: '20'
+    - conditions:
+      - condition: trigger
+        id: t25
+      - condition: state
+        entity_id: input_boolean.aire_pro_bloqueo
+        state: 'off'
+      - condition: state
+        entity_id: input_boolean.air_conditioner
+        state: 'on'
+      - condition: state
+        entity_id: input_select.aire_pro_etapa
+        state: '26'
+      sequence:
+      - action: media_player.play_media
+        target:
+          entity_id: media_player.john_s_room_echo_dot
+        data:
+          media:
+            media_content_id: Aire pro a
+            media_content_type: routine
+      - action: input_select.select_option
+        target:
+          entity_id: input_select.aire_pro_etapa
+        data:
+          option: '25'
+    - conditions:
+      - condition: trigger
+        id: t24
+      - condition: state
+        entity_id: input_boolean.aire_pro_bloqueo
+        state: 'off'
+      - condition: state
+        entity_id: input_boolean.air_conditioner
+        state: 'on'
+      - condition: state
+        entity_id: input_select.aire_pro_etapa
+        state: '25'
+      sequence:
+      - action: media_player.play_media
+        target:
+          entity_id: media_player.john_s_room_echo_dot
+        data:
+          media:
+            media_content_id: Aire pro b
+            media_content_type: routine
+      - action: input_select.select_option
+        target:
+          entity_id: input_select.aire_pro_etapa
+        data:
+          option: '24'
+    - conditions:
+      - condition: trigger
+        id: t23
+      - condition: state
+        entity_id: input_boolean.aire_pro_bloqueo
+        state: 'off'
+      - condition: state
+        entity_id: input_boolean.air_conditioner
+        state: 'on'
+      - condition: state
+        entity_id: input_select.aire_pro_etapa
+        state: '24'
+      sequence:
+      - action: media_player.play_media
+        target:
+          entity_id: media_player.john_s_room_echo_dot
+        data:
+          media:
+            media_content_id: Aire pro c
+            media_content_type: routine
+      - action: input_select.select_option
+        target:
+          entity_id: input_select.aire_pro_etapa
+        data:
+          option: '23'
+    - conditions:
+      - condition: trigger
+        id: t22
+      - condition: state
+        entity_id: input_boolean.aire_pro_bloqueo
+        state: 'off'
+      - condition: state
+        entity_id: input_boolean.air_conditioner
+        state: 'on'
+      - condition: state
+        entity_id: input_select.aire_pro_etapa
+        state: '23'
+      sequence:
+      - action: media_player.play_media
+        target:
+          entity_id: media_player.john_s_room_echo_dot
+        data:
+          media:
+            media_content_id: Aire pro d
+            media_content_type: routine
+      - action: input_select.select_option
+        target:
+          entity_id: input_select.aire_pro_etapa
+        data:
+          option: '22'
+    - conditions:
+      - condition: trigger
+        id: t21
+      - condition: state
+        entity_id: input_boolean.aire_pro_bloqueo
+        state: 'off'
+      - condition: state
+        entity_id: input_boolean.air_conditioner
+        state: 'on'
+      - condition: state
+        entity_id: input_select.aire_pro_etapa
+        state: '22'
+      sequence:
+      - action: media_player.play_media
+        target:
+          entity_id: media_player.john_s_room_echo_dot
+        data:
+          media:
+            media_content_id: Aire pro e
+            media_content_type: routine
+      - action: input_select.select_option
+        target:
+          entity_id: input_select.aire_pro_etapa
+        data:
+          option: '21'
+    - conditions:
+      - condition: trigger
+        id: t20
+      - condition: state
+        entity_id: input_boolean.aire_pro_bloqueo
+        state: 'off'
+      - condition: state
+        entity_id: input_boolean.air_conditioner
+        state: 'on'
+      - condition: state
+        entity_id: input_select.aire_pro_etapa
+        state: '21'
+      sequence:
+      - action: media_player.play_media
+        target:
+          entity_id: media_player.john_s_room_echo_dot
+        data:
+          media:
+            media_content_id: Aire pro f
+            media_content_type: routine
+      - action: input_select.select_option
+        target:
+          entity_id: input_select.aire_pro_etapa
+        data:
+          option: '20'
+  mode: queued
+  max: 5
+- id: '1772504781219'
+  alias: Aire Pro ON -> Override manual ON
+  description: ''
+  triggers:
+  - entity_id: input_boolean.air_conditioner
+    to: 'on'
+    trigger: state
+  actions:
+  - target:
+      entity_id: input_boolean.ac_manual_override
+    action: input_boolean.turn_on
+  mode: single
+- id: '1772504813373'
+  alias: Solar toma control
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id: sensor.solar_estado_real
+    to:
+    - amanecer_defensivo
+    - transicion_baja
+    - transicion_util
+    - solar_parcial
+    - solar_firme
+  conditions:
+  - condition: state
+    entity_id: input_boolean.auto_a_c
+    state: 'on'
+  - condition: state
+    entity_id: input_boolean.ac_comfort_override
+    state: 'off'
+  actions:
+  - target:
+      entity_id: input_boolean.ac_manual_override
+    action: input_boolean.turn_off
+  - target:
+      entity_id: input_text.ac_solar_last_action
+    data:
+      value: solar_retoma_control
+    action: input_text.set_value
+  - data:
+      name: AC Solar
+      message: 'Estado solar útil detectado ({{ states(''sensor.solar_estado_real'')
+        }}). Override OFF, Solar IA retoma control.
+
+        '
+    action: logbook.log
+  mode: single
+- id: '1773085309499'
+  alias: Fan A\C Sync
+  description: Enciende o apaga abanico con estado de a\c
+  triggers:
+  - trigger: state
+    entity_id: input_boolean.air_conditioner
+    to: 'on'
+    id: ac_on
+  - trigger: state
+    entity_id: input_boolean.air_conditioner
+    to: 'off'
+    id: ac_off
+  - trigger: state
+    entity_id:
+    - input_text.ac_last_set
+    to:
+    - '24'
+    - '23'
+    - '22'
+    - '21'
+    - '20'
+    - '25'
+    - '26'
+    id: temp_fria
+  - trigger: state
+    entity_id: input_text.ac_last_set
+    to: 'off'
+    id: set_off
+  conditions: []
+  actions:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - ac_on
+        - temp_fria
+      sequence:
+      - type: turn_on
+        device_id: 85e5fb2f5e5ab480eff4f9100aa37b19
+        entity_id: 52f5b15d28f74041c775933b571478d3
+        domain: switch
+    - conditions:
+      - condition: trigger
+        id:
+        - ac_off
+        - set_off
+      sequence:
+      - type: turn_off
+        device_id: 85e5fb2f5e5ab480eff4f9100aa37b19
+        entity_id: 52f5b15d28f74041c775933b571478d3
+        domain: switch
+  mode: single
+- id: '1773184018126'
+  alias: Reset solar dia terminado
+  description: ''
+  triggers:
+  - trigger: sun
+    event: sunrise
+  conditions: []
+  actions:
+  - target:
+      entity_id: input_boolean.solar_dia_terminado
+    action: input_boolean.turn_off
+  - target:
+      entity_id: input_number.ac_warn_streak
+    data:
+      value: 0
+    action: input_number.set_value
+  - target:
+      entity_id: input_number.ac_off_streak
+    data:
+      value: 0
+    action: input_number.set_value
+  mode: single
+- id: '1773354972427'
+  alias: BLUETTI - Charger
+  description: Carga la AC70 con excedente real y la suelta cuando deja de ser sostenible
+  triggers:
+  - trigger: time_pattern
+    minutes: /2
+  conditions:
+  - condition: state
+    entity_id: input_boolean.auto_bluetti_charge
+    state: 'on'
+  actions:
+  - variables:
+      batt_w: '{{ states(''sensor.inverter_battery_power'')|float(0) }}'
+      bluetti_soc: '{{ states(''sensor.ac702439001070412_battery_soc'')|float(0) }}'
+      bluetti_time_h: '{{ states(''sensor.ac702439001070412_time_remaining'')|float(99)
+        }}'
+      bluetti_input_w: '{{ states(''sensor.ac702439001070412_ac_input_power'')|float(0)
+        }}'
+      plug_on: '{{ is_state(''switch.tp_link_smart_plug_d03c_pi'',''on'') }}'
+      start_surplus_w: -1600
+      bluetti_good_soc: 100
+      bluetti_low_soc: 10
+      bluetti_critical_soc: 5
+      bluetti_critical_time_h: 0.5
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: "{{\n  bluetti_soc <= bluetti_critical_soc\n  or bluetti_time_h
+          <= bluetti_critical_time_h\n}}\n"
+      sequence:
+      - action: switch.turn_on
+        target:
+          entity_id: switch.tp_link_smart_plug_d03c_pi
+      - stop: Protección crítica Bluetti
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: "{{\n  not plug_on\n  and batt_w <= start_surplus_w\n  and
+          bluetti_soc < 100\n}}\n"
+      sequence:
+      - action: switch.turn_on
+        target:
+          entity_id: switch.tp_link_smart_plug_d03c_pi
+      - stop: 'Excedente fuerte: conectar Bluetti'
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: "{{\n  plug_on\n  and bluetti_soc < bluetti_good_soc\n}}\n"
+      sequence:
+      - stop: Bluetti aún cargando
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: "{{\n  plug_on\n  and bluetti_soc >= bluetti_good_soc\n  and
+          batt_w < bluetti_input_w\n}}\n"
+      sequence:
+      - stop: Todavía sostenible por solar
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: "{{\n  plug_on\n  and bluetti_soc >= bluetti_good_soc\n  and
+          batt_w >= bluetti_input_w\n}}\n"
+      sequence:
+      - action: switch.turn_off
+        target:
+          entity_id: switch.tp_link_smart_plug_d03c_pi
+      - stop: 'Ya no es solar sostenible: usar Bluetti como batería'
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: "{{\n  not plug_on\n  and bluetti_soc <= bluetti_low_soc\n}}\n"
+      sequence:
+      - action: switch.turn_on
+        target:
+          entity_id: switch.tp_link_smart_plug_d03c_pi
+      - stop: 'Bluetti baja: reconectar'
+  mode: single
+- id: '1774482657471'
+  alias: Refrigerator Water Pump Controller
+  description: ''
+  triggers:
+  - type: power
+    device_id: 79b5c2d63f4070ee36862f762ae26c2f
+    entity_id: 5f1a7df5661c67916addebec4fd1e3d3
+    domain: sensor
+    trigger: device
+    above: 1.5
+    for:
+      hours: 0
+      minutes: 2
+      seconds: 0
+  conditions: []
+  actions:
+  - type: turn_off
+    device_id: 79b5c2d63f4070ee36862f762ae26c2f
+    entity_id: 0ca05a03d15a4394e62cba31692474b7
+    domain: switch
+  mode: single
+- id: '1774486783343'
+  alias: Reiniciar router si se cae internet
+  triggers:
+  - entity_id: binary_sensor.8_8_8_8
+    to: 'off'
+    for: 00:05:00
+    trigger: state
+  conditions:
+  - condition: state
+    entity_id: switch.0x282c02bfffeb7e6a
+    state: 'on'
+  - condition: state
+    entity_id: input_boolean.internet_reboot_lock
+    state: 'off'
+  actions:
+  - target:
+      entity_id: input_boolean.internet_reboot_lock
+    action: input_boolean.turn_on
+  - target:
+      entity_id: switch.0x282c02bfffeb7e6a
+    action: switch.turn_off
+  - delay: 00:00:15
+  - target:
+      entity_id: switch.0x282c02bfffeb7e6a
+    action: switch.turn_on
+  - delay: 00:15:00
+  - target:
+      entity_id: input_boolean.internet_reboot_lock
+    action: input_boolean.turn_off
+  mode: single
+- id: '1774585953832'
+  alias: Foco auto Sunrise
+  description: ''
+  triggers:
+  - trigger: sun
+    event: sunrise
+    offset: '-1:00:00'
+  conditions: []
+  actions:
+  - type: turn_off
+    device_id: c7fcac697b29c7c6e342d68480f7b611
+    entity_id: 5bbab355d2b16e94e4ae10c2c67c5177
+    domain: light
+  - type: turn_off
+    device_id: 2d013b8e12f73c0e4d3df3f33e1838c3
+    entity_id: c3bf93f6b24cd37d232fdb6f9c84e762
+    domain: switch
+  mode: single
+- id: '1774586135639'
+  alias: Foco auto Sun sets
+  description: ''
+  triggers:
+  - trigger: sun
+    event: sunset
+  conditions: []
+  actions:
+  - type: turn_on
+    device_id: c7fcac697b29c7c6e342d68480f7b611
+    entity_id: 5bbab355d2b16e94e4ae10c2c67c5177
+    domain: light
+  - type: turn_on
+    device_id: 2d013b8e12f73c0e4d3df3f33e1838c3
+    entity_id: c3bf93f6b24cd37d232fdb6f9c84e762
+    domain: switch
+  mode: single
+- id: '1775062509860'
+  alias: A\C SSC v5.8.4
+  description: Air Conditioner Smart Solar Controller v5.8.4
+  triggers:
+  - minutes: /3
+    trigger: time_pattern
+    id: tick
+  - trigger: sun
+    event: sunrise
+    id: sunrise
+  - trigger: sun
+    event: sunset
+    id: sunset
+  conditions:
+  - condition: state
+    entity_id: input_boolean.auto_a_c
+    state: 'on'
+  actions:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: sunset
+      sequence:
+      - target:
+          entity_id: input_boolean.aire_pro_bloqueo
+        action: input_boolean.turn_off
+      - target:
+          entity_id: input_text.ac_solar_last_action
+        data:
+          value: sunset_libera_aire_pro
+        action: input_text.set_value
+      - stop: 'Atardecer: libero Aire Pro'
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ not sun_up }}'
+      sequence:
+      - target:
+          entity_id: input_boolean.aire_pro_bloqueo
+        action: input_boolean.turn_off
+      - target:
+          entity_id: input_text.ac_solar_last_action
+        data:
+          value: sin_sol
+        action: input_text.set_value
+      - stop: Sin sol
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.solar_dia_terminado
+        state: 'off'
+      sequence:
+      - target:
+          entity_id: input_boolean.aire_pro_bloqueo
+        action: input_boolean.turn_on
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: "{{\n  states('input_boolean.ac_manual_override') == 'off'\n
+          \ and states('input_boolean.aire_pro_bloqueo') == 'on'\n  and states('sensor.airconditionermultisensor_aire_potencia')|float(0)
+          > 5\n  and states('input_text.ac_last_set')|string|trim == 'off'\n  and
+          states('input_select.aire_pro_etapa')|string|trim in ['20','21','22','23','24','25','26']\n}}\n"
+      sequence:
+      - target:
+          entity_id: input_text.ac_last_set
+        data:
+          value: '{{ states(''input_select.aire_pro_etapa'')|string|trim }}'
+        action: input_text.set_value
+      - target:
+          entity_id: input_select.ac_estado
+        data:
+          option: "{% set ep = states('input_select.aire_pro_etapa')|string|trim %}
+            {% if ep in ['20','21','22'] %}\n  precool\n{% else %}\n  ahorro\n{% endif
+            %}\n"
+        action: input_select.select_option
+      - target:
+          entity_id: input_text.ac_solar_last_action
+        data:
+          value: resync_desde_aire_pro
+        action: input_text.set_value
+      - stop: Resync desde Aire Pro
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: "{{\n  is_state('input_boolean.ac_manual_override','on')\n
+          \ and (\n    (\n      modo_amanecer == 'confort'\n      and aire_pro_etapa
+          in ['20','21','22']\n      and confort_sostenible\n    )\n    or\n    (\n
+          \     modo_amanecer != 'confort'\n      and (\n        batt_w <= 0\n        or
+          solar_total >= load_total\n        or (soc >= soc_objetivo and batt_w <=
+          full_probe_w)\n      )\n    )\n  )\n}}\n"
+      sequence:
+      - target:
+          entity_id: input_boolean.ac_manual_override
+        action: input_boolean.turn_off
+      - choose:
+        - conditions:
+          - condition: template
+            value_template: "{{\n  confort_sostenible\n  and ac_w > 5\n  and aire_pro_etapa
+              in ['20','21','22']\n}}\n"
+          sequence:
+          - target:
+              entity_id: input_text.ac_last_set
+            data:
+              value: '{{ aire_pro_etapa }}'
+            action: input_text.set_value
+          - target:
+              entity_id: input_select.ac_estado
+            data:
+              option: precool
+            action: input_select.select_option
+          - target:
+              entity_id: input_text.ac_solar_last_action
+            data:
+              value: handoff_manual_confort
+            action: input_text.set_value
+          - stop: Handoff a Solar IA manteniendo confort
+        - conditions:
+          - condition: template
+            value_template: "{{\n  ac_w > 5\n  and aire_pro_etapa in ['23','24','25','26']\n}}\n"
+          sequence:
+          - target:
+              entity_id: input_text.ac_last_set
+            data:
+              value: '{{ aire_pro_etapa }}'
+            action: input_text.set_value
+          - target:
+              entity_id: input_select.ac_estado
+            data:
+              option: ahorro
+            action: input_select.select_option
+          - target:
+              entity_id: input_text.ac_solar_last_action
+            data:
+              value: handoff_manual_solar
+            action: input_text.set_value
+          - stop: Handoff a Solar IA en ahorro
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.ac_manual_override
+        state: 'on'
+      sequence:
+      - target:
+          entity_id: input_text.ac_solar_last_action
+        data:
+          value: override_manual_activo
+        action: input_text.set_value
+      - stop: Override manual activo
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ batt_w > (descarga_warn_activa | float(0)) }}'
+      sequence:
+      - target:
+          entity_id: input_number.ac_warn_streak
+        data:
+          value: '{{ [states(''input_number.ac_warn_streak'')|float(0) + 1, 10] |
+            min }}
+
+            '
+        action: input_number.set_value
+    - conditions:
+      - condition: template
+        value_template: '{{ batt_w <= (descarga_warn_activa | float(0)) }}'
+      sequence:
+      - target:
+          entity_id: input_number.ac_warn_streak
+        data:
+          value: 0
+        action: input_number.set_value
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ batt_w > descarga_fuerte }}'
+      sequence:
+      - target:
+          entity_id: input_number.ac_off_streak
+        data:
+          value: '{{ [states(''input_number.ac_off_streak'')|float(0) + 1, 10] | min
+            }}
+
+            '
+        action: input_number.set_value
+    - conditions:
+      - condition: template
+        value_template: '{{ batt_w <= descarga_fuerte }}'
+      sequence:
+      - target:
+          entity_id: input_number.ac_off_streak
+        data:
+          value: 0
+        action: input_number.set_value
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ soc < soc_min and ac_w > 5 }}
+
+          '
+      sequence:
+      - target:
+          entity_id: remote.rm_mini_3
+        data:
+          device: TCL air
+          command: 'off'
+        action: remote.send_command
+      - target:
+          entity_id: input_boolean.air_conditioner
+        action: input_boolean.turn_off
+      - delay: 00:00:20
+      - choose:
+        - conditions:
+          - condition: template
+            value_template: '{{ states(''sensor.airconditionermultisensor_aire_potencia'')|float(0)
+              > 5 }}
+
+              '
+          sequence:
+          - target:
+              entity_id: remote.rm_mini_3
+            data:
+              device: TCL air
+              command: 'off'
+            action: remote.send_command
+          - target:
+              entity_id: input_boolean.air_conditioner
+            action: input_boolean.turn_off
+      - target:
+          entity_id: input_select.ac_estado
+        data:
+          option: 'off'
+        action: input_select.select_option
+      - target:
+          entity_id: input_text.ac_last_set
+        data:
+          value: 'off'
+        action: input_text.set_value
+      - target:
+          entity_id: input_text.ac_solar_last_action
+        data:
+          value: apagado_por_soc
+        action: input_text.set_value
+      - stop: Protección por SOC
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: "{{\n  confort_sostenible\n  and ac_w > 5\n  and aire_pro_etapa
+          in ['20','21','22']\n  and ac_w >= 700\n}}\n"
+      sequence:
+      - variables:
+          next_num: '{% set ep = aire_pro_etapa|int(22) %} {{ [ep + 1, 22] | min }}'
+          next_cmd: '{% set n = [aire_pro_etapa|int(22) + 1, 22] | min %} {% if n
+            == 20 %}20C{% else %}{{ n }}{% endif %}'
+      - choose:
+        - conditions:
+          - condition: template
+            value_template: '{{ next_num|string != last_set }}'
+          sequence:
+          - target:
+              entity_id: remote.rm_mini_3
+            data:
+              device: TCL air
+              command: '{{ next_cmd }}'
+            action: remote.send_command
+          - target:
+              entity_id: input_text.ac_last_set
+            data:
+              value: '{{ next_num }}'
+            action: input_text.set_value
+      - target:
+          entity_id: input_select.ac_estado
+        data:
+          option: ahorro
+        action: input_select.select_option
+      - target:
+          entity_id: input_text.ac_solar_last_action
+        data:
+          value: confort_manana_sube
+        action: input_text.set_value
+      - stop: 'Confort mañana: subir dentro de 20-22'
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: "{{\n  confort_sostenible\n  and ac_w > 5\n  and aire_pro_etapa
+          in ['20','21','22']\n  and ac_w < 700\n}}\n"
+      sequence:
+      - choose:
+        - conditions:
+          - condition: template
+            value_template: '{{ last_set != ''20'' }}'
+          sequence:
+          - target:
+              entity_id: remote.rm_mini_3
+            data:
+              device: TCL air
+              command: 20C
+            action: remote.send_command
+          - target:
+              entity_id: input_text.ac_last_set
+            data:
+              value: '20'
+            action: input_text.set_value
+      - target:
+          entity_id: input_select.ac_estado
+        data:
+          option: precool
+        action: input_select.select_option
+      - target:
+          entity_id: input_text.ac_solar_last_action
+        data:
+          value: confort_manana_mantiene_20
+        action: input_text.set_value
+      - stop: 'Confort mañana: mantener 20'
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: "{{\n  ac_w > 5\n  and solar_estado in ['primeros_rayitos','amanecer_defensivo','transicion_baja']\n
+          \ and now().hour < 12\n  and (\n    (\n      modo_amanecer == 'confort'\n
+          \     and hora_actual_decimal < solar_hora_confianza\n      and not confort_sostenible\n
+          \   )\n    or\n    (\n      modo_amanecer != 'confort'\n      and not confort_sostenible\n
+          \     and (\n        last_num <= 23\n        or batt_w > 120\n        or
+          soc <= (soc_min + 1)\n      )\n    )\n  )\n}}\n"
+      sequence:
+      - variables:
+          target_num: "{% if modo_amanecer == 'confort' and hora_actual_decimal <
+            solar_hora_confianza %}\n  {% set ratio = (runtime_actual_h / horas_hasta_confianza)
+            if horas_hasta_confianza > 0 else 99 %}\n  {% if soc <= soc_min %}\n    26\n
+            \ {% elif soc <= (soc_min + 0.5) %}\n    26\n  {% elif ratio >= 1.00 %}\n
+            \   {{ last_num }}\n  {% elif ratio >= 0.90 %}\n    {{ [last_num + 1,
+            21] | min }}\n  {% elif ratio >= 0.80 %}\n    {{ [last_num + 1, 22] |
+            min }}\n  {% elif ratio >= 0.70 %}\n    {{ [last_num + 1, 23] | min }}\n
+            \ {% elif ratio >= 0.60 %}\n    {{ [last_num + 1, 24] | min }}\n  {% elif
+            ratio >= 0.45 %}\n    25\n  {% else %}\n    26\n  {% endif %}\n{% else
+            %}\n  {% if soc <= soc_min %}\n    26\n  {% elif last_num <= 21 %}\n    26\n
+            \ {% elif last_num <= 23 %}\n    25\n  {% else %}\n    {{ last_num }}\n
+            \ {% endif %}\n{% endif %}\n"
+          target_cmd: '{% set n = target_num|int(26) %} {% if n == 20 %}20C {% elif
+            n == 25 %}25C {% else %}{{ n }} {% endif %}
+
+            '
+      - choose:
+        - conditions:
+          - condition: template
+            value_template: '{{ (target_num|int) > last_num }}'
+          sequence:
+          - target:
+              entity_id: remote.rm_mini_3
+            data:
+              device: TCL air
+              command: '{{ target_cmd }}'
+            action: remote.send_command
+          - target:
+              entity_id: input_text.ac_last_set
+            data:
+              value: '{{ target_num }}'
+            action: input_text.set_value
+      - target:
+          entity_id: input_select.ac_estado
+        data:
+          option: "{% if modo_amanecer == 'confort' and hora_actual_decimal < solar_hora_confianza
+            and (target_num|int) <= 24 %}\n  precool\n{% else %}\n  ahorro\n{% endif
+            %}\n"
+        action: input_select.select_option
+      - target:
+          entity_id: input_text.ac_solar_last_action
+        data:
+          value: amanecer_defensivo
+        action: input_text.set_value
+      - stop: Amanecer defensivo
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.solar_dia_terminado
+        state: 'off'
+      - condition: template
+        value_template: "{{\n  ac_w <= 5\n  and (\n    solar_estado in ['transicion_util','solar_parcial','solar_firme']\n
+          \   or batt_w <= (solar_start_w | float)\n    or (soc >= soc_objetivo and
+          batt_w <= full_probe_w)\n  )\n}}\n"
+      sequence:
+      - choose:
+        - conditions:
+          - condition: template
+            value_template: "{{\n  confort_sostenible\n  and last_set == 'off'\n  and
+              aire_pro_etapa in ['20','21','22']\n}}\n"
+          sequence:
+          - variables:
+              rec_num: '{{ aire_pro_etapa }}'
+              rec_cmd: '{% if aire_pro_etapa == ''20'' %}20C{% else %}{{ aire_pro_etapa
+                }}{% endif %}'
+          - target:
+              entity_id: remote.rm_mini_3
+            data:
+              device: TCL air
+              command: '{{ rec_cmd }}'
+            action: remote.send_command
+          - target:
+              entity_id: input_text.ac_last_set
+            data:
+              value: '{{ rec_num }}'
+            action: input_text.set_value
+          - target:
+              entity_id: input_select.ac_estado
+            data:
+              option: precool
+            action: input_select.select_option
+          - target:
+              entity_id: input_text.ac_solar_last_action
+            data:
+              value: confort_recupera_etapa
+            action: input_text.set_value
+          - stop: 'Confort: recupera etapa real'
+      - choose:
+        - conditions:
+          - condition: template
+            value_template: '{{ last_set != ''26'' }}'
+          sequence:
+          - target:
+              entity_id: remote.rm_mini_3
+            data:
+              device: TCL air
+              command: '26'
+            action: remote.send_command
+          - target:
+              entity_id: input_text.ac_last_set
+            data:
+              value: '26'
+            action: input_text.set_value
+      - target:
+          entity_id: input_select.ac_estado
+        data:
+          option: ahorro
+        action: input_select.select_option
+      - target:
+          entity_id: input_text.ac_solar_last_action
+        data:
+          value: arranque_solar_26
+        action: input_text.set_value
+      - stop: Arranque solar en 26
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: "{{ ac_w > 5\n   and (states('input_number.ac_warn_streak')|float(0))
+          >= warn_cycles\n   and last_num < max_step }}\n"
+      sequence:
+      - variables:
+          step_cap: "{% if modo_amanecer == 'confort' and hora_actual_decimal < solar_hora_confianza
+            %}\n  {% set ratio = (runtime_actual_h / horas_hasta_confianza) if horas_hasta_confianza
+            > 0 else 99 %}\n  {% if soc <= (soc_min + 0.5) %}\n    26\n  {% elif ratio
+            >= 0.90 %}\n    21\n  {% elif ratio >= 0.80 %}\n    22\n  {% elif ratio
+            >= 0.70 %}\n    23\n  {% elif ratio >= 0.60 %}\n    24\n  {% elif ratio
+            >= 0.45 %}\n    25\n  {% else %}\n    26\n  {% endif %}\n{% else %}\n
+            \ {{ max_step }}\n{% endif %}\n"
+          next_num: '{{ [last_num + 1, step_cap|int(max_step)] | min }}'
+          next_cmd: '{% set n = [last_num + 1, step_cap|int(max_step)] | min %} {%
+            if n == 20 %}20C {% elif n == 25 %}25C {% else %}{{ n }} {% endif %}'
+      - choose:
+        - conditions:
+          - condition: template
+            value_template: '{{ (next_num|int) > last_num }}'
+          sequence:
+          - target:
+              entity_id: remote.rm_mini_3
+            data:
+              device: TCL air
+              command: '{{ next_cmd }}'
+            action: remote.send_command
+          - target:
+              entity_id: input_text.ac_last_set
+            data:
+              value: '{{ next_num }}'
+            action: input_text.set_value
+      - target:
+          entity_id: input_select.ac_estado
+        data:
+          option: "{% if modo_amanecer == 'confort' and hora_actual_decimal < solar_hora_confianza
+            and (next_num|int) <= 24 %}\n  precool\n{% else %}\n  ahorro\n{% endif
+            %}\n"
+        action: input_select.select_option
+      - target:
+          entity_id: input_text.ac_solar_last_action
+        data:
+          value: subiendo_escalon
+        action: input_text.set_value
+      - stop: 'Descarga sostenida: subiendo un escalón'
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: "{{ ac_w > 5\n   and (last_num >= max_step or last_set ==
+          '26')\n   and (states('input_number.ac_off_streak')|float(0)) >= off_cycles
+          }}\n"
+      sequence:
+      - target:
+          entity_id: remote.rm_mini_3
+        data:
+          device: TCL air
+          command: 'off'
+        action: remote.send_command
+      - target:
+          entity_id: input_boolean.air_conditioner
+        action: input_boolean.turn_off
+      - delay: 00:00:20
+      - choose:
+        - conditions:
+          - condition: template
+            value_template: '{{ states(''sensor.airconditionermultisensor_aire_potencia'')|float(0)
+              > 5 }}
+
+              '
+          sequence:
+          - target:
+              entity_id: remote.rm_mini_3
+            data:
+              device: TCL air
+              command: 'off'
+            action: remote.send_command
+          - target:
+              entity_id: input_boolean.air_conditioner
+            action: input_boolean.turn_off
+      - target:
+          entity_id: input_select.ac_estado
+        data:
+          option: 'off'
+        action: input_select.select_option
+      - target:
+          entity_id: input_text.ac_last_set
+        data:
+          value: 'off'
+        action: input_text.set_value
+      - target:
+          entity_id: input_text.ac_solar_last_action
+        data:
+          value: apagado_por_descarga
+        action: input_text.set_value
+      - choose:
+        - conditions:
+          - condition: template
+            value_template: '{% set tarde = now().hour >= 15 %} {% set c1 = batt_w
+              > 50 %} {% set c2 = solar_total < load_total %} {% set c3 = solar_total
+              < 500 %} {{ tarde and ([c1, c2, c3] | select(''eq'', true) | list |
+              count >= 2) }}
+
+              '
+          sequence:
+          - target:
+              entity_id: input_boolean.solar_dia_terminado
+            action: input_boolean.turn_on
+          - target:
+              entity_id: input_boolean.aire_pro_bloqueo
+            action: input_boolean.turn_off
+      - stop: 'En 26 y descarga fuerte sostenida: apagar'
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: "{{ ac_w > 5\n   and last_num > min_step\n   and temp_air
+          > 20.5\n   and batt_w <= surplus_down_w\n   and alcanza\n   and solar_estado
+          in ['solar_firme','solar_parcial'] }}\n"
+      sequence:
+      - variables:
+          next_num: '{{ [last_num - 1, min_step] | max }}'
+          next_cmd: '{% set n = [last_num - 1, min_step] | max %} {% if n == 20 %}20C
+            {% elif n == 25 %}25C {% else %}{{ n }} {% endif %}'
+      - target:
+          entity_id: remote.rm_mini_3
+        data:
+          device: TCL air
+          command: '{{ next_cmd }}'
+        action: remote.send_command
+      - target:
+          entity_id: input_text.ac_last_set
+        data:
+          value: '{{ next_num }}'
+        action: input_text.set_value
+      - target:
+          entity_id: input_select.ac_estado
+        data:
+          option: precool
+        action: input_select.select_option
+      - target:
+          entity_id: input_text.ac_solar_last_action
+        data:
+          value: bajando_escalon
+        action: input_text.set_value
+      - stop: 'Excedente solar real: bajando un escalón'
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: "{{ ac_w > 5\n   and last_num > min_step\n   and temp_air
+          > 20.5\n   and soc >= soc_objetivo\n   and batt_w <= full_probe_w\n   and
+          (states('input_number.ac_warn_streak')|float(0)) == 0\n   and alcanza\n
+          \  and solar_estado in ['solar_firme','solar_parcial'] }}\n"
+      sequence:
+      - variables:
+          next_num: '{{ [last_num - 1, min_step] | max }}'
+          next_cmd: '{% set n = [last_num - 1, min_step] | max %} {% if n == 20 %}20C
+            {% elif n == 25 %}25C {% else %}{{ n }} {% endif %}'
+      - target:
+          entity_id: remote.rm_mini_3
+        data:
+          device: TCL air
+          command: '{{ next_cmd }}'
+        action: remote.send_command
+      - target:
+          entity_id: input_text.ac_last_set
+        data:
+          value: '{{ next_num }}'
+        action: input_text.set_value
+      - target:
+          entity_id: input_select.ac_estado
+        data:
+          option: precool
+        action: input_select.select_option
+      - target:
+          entity_id: input_text.ac_solar_last_action
+        data:
+          value: probe_mas_frio
+        action: input_text.set_value
+      - stop: 'Batería en objetivo: probe un escalón más frío'
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ neutral_lo < batt_w < neutral_hi }}'
+      sequence:
+      - target:
+          entity_id: input_text.ac_solar_last_action
+        data:
+          value: zona_neutra
+        action: input_text.set_value
+      - stop: Zona neutra
+  mode: single
+  variables:
+    solar_hora_confianza: '{{ states(''input_number.solar_hora_confianza'')|float(9.5)
+      }}'
+    runtime_actual_h: '{{ states(''sensor.battery_runtime_hours_at_current_load'')|float(0)
+      }}'
+    forecast_next_hour_kwh: "{{ states('sensor.energy_next_hour')|float(0)\n + states('sensor.energy_next_hour_2')|float(0)
+      }}\n"
+    forecast_power_now_total: "{{ states('sensor.power_production_now')|float(0)\n
+      + states('sensor.power_production_now_2')|float(0) }}\n"
+    hora_actual_decimal: '{{ now().hour + (now().minute / 60) }}
+
+      '
+    horas_hasta_confianza: "{{ [states('input_number.solar_hora_confianza')|float(9.5)\n
+      \  - (now().hour + (now().minute / 60)), 0] | max }}\n"
+    modo_amanecer: '{{ states(''input_select.ac_modo_amanecer'')|string|trim }}'
+    aire_pro_etapa: '{{ states(''input_select.aire_pro_etapa'')|string|trim }}'
+    solar_total: '{{ states(''sensor.solar_total_power'')|float(0) }}'
+    load_total: '{{ states(''sensor.inverter_load_total'')|float(0) }}'
+    solar_estado: '{{ states(''sensor.solar_estado_real'')|string|trim }}'
+    temp_air: '{{ states(''sensor.airconditionermultisensor_temperatura_aire'')|float(0)
+      }}'
+    ac_w: '{{ states(''sensor.airconditionermultisensor_aire_potencia'')|float(0)
+      }}'
+    batt_w: '{{ states(''sensor.inverter_battery_power'')|float(0) }}'
+    soc: '{{ states(''sensor.inverter_battery_soc'')|float(0) }}'
+    soc_min: '{{ states(''input_number.soc_minimo'')|float(0) }}'
+    soc_reserva_noche: '{{ states(''input_number.soc_reserva_noche'')|float(0) }}'
+    soc_objetivo: '{{ states(''input_number.soc_objetivo'')|float(82) }}'
+    last_set: '{{ states(''input_text.ac_last_set'')|string|trim }}'
+    alcanza: '{{ states(''sensor.alcanza_a_cargar_hoy'') == ''True'' }}'
+    sun_up: '{{ is_state(''sun.sun'',''above_horizon'') }}'
+    solar_ya_sostiene: '{{ solar_total >= load_total or batt_w <= 0 }}
+
+      '
+    confort_runtime_factor: 0.65
+    confort_soc_buffer: 12
+    descarga_warn_confort_dia: 550
+    descarga_warn_activa: "{% if modo_amanecer == 'confort' and hora_actual_decimal
+      < solar_hora_confianza %}\n  {{ descarga_warn_confort_dia }}\n{% else %}\n  {{
+      descarga_warn }}\n{% endif %}"
+    confort_base: "{{\n  modo_amanecer == 'confort'\n  and aire_pro_etapa in ['20','21','22']\n
+      \ and sun_up\n  and now().hour < 11\n}}"
+    confort_sostenible: "{{\n  confort_base\n  and soc > soc_min\n  and (\n    (\n
+      \     hora_actual_decimal < solar_hora_confianza\n      and (\n        runtime_actual_h
+      >= (horas_hasta_confianza * confort_runtime_factor)\n        or (\n          soc
+      >= (soc_min + confort_soc_buffer)\n          and forecast_next_hour_kwh >= 0.35\n
+      \       )\n        or alcanza\n      )\n    )\n    or\n    (\n      hora_actual_decimal
+      >= solar_hora_confianza\n      and (\n        batt_w <= 0\n        or solar_total
+      >= load_total\n        or forecast_power_now_total >= load_total\n      )\n
+      \   )\n  )\n}}"
+    surplus_down_w: -350
+    full_probe_w: 100
+    neutral_hi: 250
+    neutral_lo: -300
+    descarga_warn: 50
+    descarga_fuerte: 50
+    warn_cycles: 2
+    off_cycles: 3
+    min_step: 20
+    max_step: 26
+    last_num: "{% set acw = states('sensor.airconditionermultisensor_aire_potencia')|float(0)
+      %} {% set ep = states('input_select.aire_pro_etapa')|string|trim %} {% set ls
+      = states('input_text.ac_last_set')|string|trim %}\n{% if ls == 'off' and acw
+      > 200 and ep in ['20','21','22','23','24','25','26'] %}\n  {% set s = ep %}\n{%
+      else %}\n  {% set s = ls %}\n{% endif %}\n{% if s in ['20','20C'] %}20 {% elif
+      s == '21' %}21 {% elif s == '22' %}22 {% elif s == '23' %}23 {% elif s == '24'
+      %}24 {% elif s in ['25','25C'] %}25 {% elif s == '26' %}26 {% else %}0 {% endif
+      %}"
+    solar_start_w: "{% if soc < (states('input_number.soc_minimo')|float + 2) %}\n
+      \ -1200\n{% else %}\n  -300\n{% endif %}"

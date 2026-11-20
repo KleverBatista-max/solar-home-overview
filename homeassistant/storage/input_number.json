@@ -1,0 +1,163 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "input_number",
+  "data": {
+    "items": [
+      {
+        "id": "soc_minimo",
+        "min": 20.0,
+        "max": 60.0,
+        "name": "SOC Mínimo ",
+        "icon": "mdi:battery",
+        "mode": "slider",
+        "unit_of_measurement": "%",
+        "step": 1.0
+      },
+      {
+        "id": "soc_objetivo",
+        "min": 50.0,
+        "max": 82.0,
+        "icon": "mdi:battery",
+        "name": "SOC Objetivo",
+        "step": 1.0,
+        "mode": "slider",
+        "unit_of_measurement": "%"
+      },
+      {
+        "id": "soc_full",
+        "min": 60.0,
+        "max": 82.0,
+        "name": "SOC Full",
+        "icon": "mdi:battery",
+        "mode": "slider",
+        "step": 1.0,
+        "unit_of_measurement": "%"
+      },
+      {
+        "id": "temp_dormir",
+        "min": 16.0,
+        "max": 28.0,
+        "name": "Temp dormir ",
+        "icon": "mdi:coolant-temperature",
+        "step": 1.0,
+        "mode": "slider",
+        "unit_of_measurement": "°C"
+      },
+      {
+        "id": "temp_precool",
+        "min": 16.0,
+        "max": 28.0,
+        "name": "Temp precool",
+        "icon": "mdi:coolant-temperature",
+        "step": 0.5,
+        "mode": "slider",
+        "unit_of_measurement": "°C"
+      },
+      {
+        "id": "temp_ahorro",
+        "min": 18.0,
+        "max": 30.0,
+        "name": "Temp Ahorro",
+        "icon": "mdi:coolant-temperature",
+        "unit_of_measurement": "°C",
+        "step": 0.5,
+        "mode": "slider"
+      },
+      {
+        "id": "margen_carga_para_precool",
+        "min": 200.0,
+        "max": 1200.0,
+        "name": "Margen carga para precool",
+        "icon": "mdi:battery-charging",
+        "unit_of_measurement": "w",
+        "step": 50.0,
+        "mode": "slider"
+      },
+      {
+        "id": "buffer_kwh",
+        "min": 0.0,
+        "max": 5.0,
+        "name": "Buffer kWh",
+        "icon": "mdi:lightning-bolt",
+        "step": 0.1,
+        "unit_of_measurement": "kWh",
+        "mode": "slider"
+      },
+      {
+        "id": "soc_reserva_noche",
+        "min": 20.0,
+        "max": 90.0,
+        "name": "SOC reserva noche",
+        "icon": "mdi:battery-charging-wireless-90",
+        "step": 1.0,
+        "mode": "slider"
+      },
+      {
+        "id": "battery_kwh",
+        "min": 0.0,
+        "max": 30.0,
+        "name": "Battery kWh",
+        "step": 0.1,
+        "mode": "slider",
+        "unit_of_measurement": "kWh"
+      },
+      {
+        "id": "battery_capacity_ah",
+        "min": 50.0,
+        "max": 600.0,
+        "name": "Battery Capacity (Ah)",
+        "icon": "mdi:battery-alert-variant",
+        "unit_of_measurement": "Ah",
+        "mode": "slider",
+        "step": 1.0
+      },
+      {
+        "id": "battery_nominal_voltage_v",
+        "min": 12.0,
+        "max": 100.0,
+        "name": "Battery Nominal Voltage (V)",
+        "icon": "mdi:battery-alert",
+        "unit_of_measurement": "V",
+        "step": 0.1,
+        "mode": "slider"
+      },
+      {
+        "id": "charge_efficiency",
+        "min": 0.7,
+        "max": 1.0,
+        "name": "Charge Efficiency",
+        "icon": "mdi:battery-charging",
+        "step": 0.01,
+        "unit_of_measurement": "ratio",
+        "mode": "slider"
+      },
+      {
+        "id": "ac_warn_streak",
+        "min": 0.0,
+        "max": 10.0,
+        "name": "Ac Warn Streak",
+        "mode": "slider",
+        "step": 1.0
+      },
+      {
+        "id": "ac_off_streak",
+        "min": 0.0,
+        "max": 10.0,
+        "name": "Ac off streak",
+        "mode": "slider",
+        "step": 1.0
+      },
+      {
+        "id": "solar_hora_confianza",
+        "min": 6.0,
+        "max": 12.0,
+        "name": "Solar Hora Confianza",
+        "icon": "mdi:access-point-check",
+        "unit_of_measurement": "h",
+        "step": 0.25,
+        "mode": "slider"
+      }
+    ]
+  }
+}
